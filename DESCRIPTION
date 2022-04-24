@@ -1,0 +1,36 @@
+Package: GeoPressureTemplate
+Title: These are the Goal of my Study (One Line, Title Case)
+Version: 0.2
+Authors@R: 
+    person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8185-1020"))
+Description: More detailed description of my research objective with my dataset available (one paragraph).
+License: GPL (>= 3)
+URL: https://github.com/Rafnuss/GeoPressureTemplate
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    dplyr,
+    GeoPressureR,
+    ggplot2,
+    igraph,
+    knitr,
+    leaflet,
+    leaflet.extras,
+    leaflet.providers,
+    lubridate,
+    ncdf4,
+    plotly,
+    raster,
+    RColorBrewer,
+    readr,
+    readxl,
+    rmarkdown,
+    distill
+Remotes: 
+    rafnuss/GeoPressureR
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
