@@ -9,10 +9,10 @@ library(raster)
 library(dplyr)
 library(readxl)
 
-debug <- T
+debug <- F
 
 # Define the geolocator data logger id to use
-gdl <- "18LX"
+# gdl <- "26IM"
 
 # Load the pressure file, also contains set, pam, col
 load(paste0("data/1_pressure/", gdl, "_pressure_prob.Rdata"))

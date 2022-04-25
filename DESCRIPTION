@@ -1,12 +1,12 @@
-Package: GeoPressureTemplate
-Title: These are the Goal of my Study (One Line, Title Case)
-Version: 0.2
+Package: Val-Piora-Wheatear
+Title: Trajectories of Northern Wheatears breeding in Val Piora
+Version: 0.3
 Authors@R: 
     person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8185-1020"))
-Description: More detailed description of my research objective with my dataset available (one paragraph).
+Description: 
 License: GPL (>= 3)
-URL: https://github.com/Rafnuss/GeoPressureTemplate
+URL: 
 Depends: 
     R (>= 3.5.0)
 Imports: 

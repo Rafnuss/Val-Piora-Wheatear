@@ -10,14 +10,14 @@ library(raster)
 library(readxl)
 
 # Set debug T to see all check and set to F once everything is correct
-debug <- T
+debug <- F
 
 # Define the geolocator data logger id to use
-gdl <- "18LX"
+# gdl <- "24TJ" # 26IM 26IL 26HS
 
 # Read its information from gpr_settings.xlsx
 gpr <- read_excel("data/gpr_settings.xlsx") %>%
-  filter(gdl_id == gdl)
+   filter(gdl_id == gdl)
 
 # assert gdl in setting
 
@@ -27,16 +27,35 @@ pam <- pam_read(paste0("data/0_PAM/", gpr$gdl_id),
   crop_end = gpr$crop_end
 )
 
-# Auto classification + writing, only done the first time
-if (!file.exists(paste0("data/1_pressure/labels/", gpr$gdl_id, "_act_pres-labeled.csv"))) {
-  pam <- pam_classify(pam)
-  trainset_write(pam, "data/1_pressure/labels/")
-  browseURL("https://trainset.geocene.com/")
-  invisible(readline(prompt = paste0(
-    "Edit the label file data/1_pressure/labels/", gpr$gdl_id,
-    "_act_pres.csv.\n Once you've exported ", gpr$gdl_id,
-    "_act_pres-labeled.csv, press [enter] to proceed"
-  )))
+# Read previous classification. Perform only once. Wrtie the new csv file in the data/label folder
+if (FALSE){
+  flr <- "/Users/raphael/Library/CloudStorage/Box-Box/GeoPressureMAT/data/labels/activity_label/"
+  old_csv <- read.csv(paste0(flr,gpr$gdl_id,"_act_pres-labeled.csv"))
+
+  old_csv$date <- strptime(old_csv$timestamp, "%FT%T", tz = "UTC")
+  csv_acc <- subset(old_csv, series == "act")
+  csv_pres <- subset(old_csv, series == "pres")
+
+   pam$acceleration = data.frame(
+    date = csv_acc$date,
+    act = csv_acc$value,
+    ismig = csv_acc$label==3
+  )
+
+  id_pres_match <- match(as.numeric(pam$pressure$date), as.numeric((csv_pres$date)))
+  missing_pres <- sum(is.na(id_pres_match))
+
+  pam$pressure$isoutliar <- !is.na(csv_pres$label[id_pres_match])
+
+  trainset_write(pam, pathname = "data/1_pressure/labels/", filename = paste0(pam$id, "_act_pres-labeled"))
+}
+
+# no acceleration data present in some/all tracks. replace by labeling
+if (!("acceleration" %in% names(pam))){
+  pam$acceleration <- read.csv(paste0("data/1_pressure/labels/",gpr$gdl_id,"_act_pres-labeled.csv")) %>%
+    filter(series=="acceleration") %>%
+    transmute(date = strptime(timestamp, "%FT%T", tz = "UTC"),
+              act = value)
 }
 
 # Read the label and compute the stationary info
@@ -105,12 +124,17 @@ pressure_prob <- geopressure_prob_map(pressure_maps,
   thr = gpr$prob_map_thr
 )
 
+id_calib <- c(1,length(pressure_prob))
+pressure_prob[id_calib] <- geopressure_prob_map(pressure_maps[id_calib],
+                                      s = gpr$prob_map_s_calib,
+                                      thr = gpr$prob_map_thr)
+
 if (debug) {
   # Compute the path of the most likely position
   path <- geopressure_map2path(pressure_prob)
 
   # Query timeserie of pressure based on these path
-  pressure_timeserie <- geopressure_ts_path(path, pam_short$pressure, include_flight = c(0, 1))
+  pressure_timeserie <- geopressure_ts_path(path, pam_short$pressure, include_flight = F)
 
   # Test 3 ----
   p <- ggplot() +
@@ -132,8 +156,13 @@ if (debug) {
       i_s <- unique(pressure_timeserie[[i_r]]$sta_id)
       df3 <- merge(pressure_timeserie[[i_r]], subset(pam$pressure, !isoutliar & sta_id == i_s), by = "date")
       df3$error <- df3$pressure0 - df3$obs
-      hist(df3$error, main = i_s, xlab = "", ylab = "")
-      abline(v = 0, col = "red")
+      hist(df3$error, main = i_s, xlab = "", ylab = "", freq = F)
+      x <- seq(-4, 4, length=100)
+      if (i_r %in% c(1, length(pressure_timeserie))) {
+          lines(x,dnorm(x,0,gpr$prob_map_s_calib), col = "red")
+        } else{
+          lines(x,dnorm(x,0,gpr$prob_map_s), col = "red")
+      }
     }
   }
 

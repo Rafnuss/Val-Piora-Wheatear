@@ -12,10 +12,10 @@ library(lubridate)
 library(GeoLocTools)
 setupGeolocation()
 
-debug <- T
+debug <- F
 
 # Define the geolocator data logger id to use
-gdl <- "18LX"
+# gdl <- "26IM"
 
 # Load the pressure file, also contains gpr, pam, col
 load(paste0("data/1_pressure/", gdl, "_pressure_prob.Rdata"))
@@ -29,7 +29,7 @@ while (!is.POSIXct(gpr$calib_1_start) | is.na(gpr$calib_1_start)) {
     ". Once it's done, press [enter] to proceed: "
   )))
   gpr <- read_excel("data/gpr_settings.xlsx") %>%
-    filter(gpr$gdl_id == gdl_id)
+    filter(gpr$gdl_id == gdl)
 }
 
 # Compute twilight
@@ -57,6 +57,15 @@ if (debug) {
   abline(v = gpr$calib_1_start, lty = 1, col = "firebrick", lwd = 1.5)
   abline(v = gpr$calib_2_end, lty = 2, col = "firebrick", lwd = 1.5)
   abline(v = gpr$calib_1_end, lty = 2, col = "firebrick", lwd = 1.5)
+}
+
+
+# Read previous classification. Perform only once. Wrtie the new csv file in the data/label folder
+if (FALSE){
+  flr <- "/Users/raphael/Library/CloudStorage/Box-Box/GeoPressureMAT/data/labels/twilight_label/"
+  read.csv(paste0(flr,gpr$gdl_id,"_twl-labeled.csv")) %>%
+    mutate(label= ifelse(label=="Outliar_true","label_1","")) %>%
+    write.csv(paste0("data/2_light/labels/",gpr$gdl_id,"_light-labeled.csv"))
 }
 
 
@@ -135,7 +144,7 @@ if (debug) {
   dur <- unlist(lapply(pressure_prob, function(x) difftime(metadata(x)$temporal_extent[2], metadata(x)$temporal_extent[1], units = "days")))
   long_id <- which(dur > 5)
 
-  par(mfrow = c(2, 3))
+  par(mfrow = c(3, 3))
   for (i_s in long_id) {
     twl_fl <- twl %>%
       filter(!deleted) %>%
