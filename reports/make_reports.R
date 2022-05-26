@@ -2,10 +2,9 @@
 library(rmarkdown)
 
 # Define the track to consider
-gdl_list <- c("26IM", "26IL", "26HS", "24EA", "24EP", "24DK", "24TJ", "16IQ", "16JL", "16JB", "16IT", "20TJ", "24IS") #  "20TZ" is removed 1 sta only
-
-# set <- read_excel("data/gdl_settings.xlsx")
-# gdl_list = set$gdl_id
+gdl_list <- read_excel("data/gpr_settings.xlsx") %>%
+  filter(keep>0) %>% # keep: 0: before migration, 1: some migration flight, 2: up to wintering site, 9: full migration
+  .$gdl_id
 
 # Define the report to produce
 report_list <- c("basic_trajectory", "technical_details")
