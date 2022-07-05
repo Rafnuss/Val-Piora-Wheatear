@@ -1,7 +1,7 @@
 ---
 site: distill::distill_website
 params:
-  gdl_id: "26IL"
+  gdl_id: "24TJ"
 ---
 ---
 title: `r params$gdl_id`
@@ -53,6 +53,35 @@ p <- ggplot() +
   scale_y_continuous(name = "Pressure(hPa)")
 
 ggplotly(p, dynamicTicks = T) %>% layout(showlegend = F)
+```
+
+## Pressure calibration
+
+```{r, layout="l-page"}
+sp_pressure = do.call("rbind", shortest_path_timeserie) %>% filter(sta_id > 0)
+
+sta_plot <- which(difftime(pam$sta$end,pam$sta$start,unit="days")>3)
+
+par(mfrow=c(2,3))
+for (i in seq_len(length(sta_plot))){
+  i_s = sta_plot[i]
+  pressure_s = pam$pressure %>% 
+    filter(sta_id==i_s & !isoutliar)
+  
+  if (nrow(pressure_s)==0){
+    break
+  }
+  
+    err <- pressure_s %>% left_join(sp_pressure, by="date") %>% 
+      mutate(
+        err = obs-pressure-mean(obs-pressure)
+      ) %>% .$err
+    
+    hist(err, freq = F, main = paste0("sta_id=",i_s, " | ",nrow(pressure_s)," dtpts | std=",round(sd(err),2)))
+   xfit <- seq(min(err), max(err), length = 40) 
+    yfit <- dnorm(xfit, mean = mean(err), sd = sd(err)) 
+    lines(xfit, yfit, col = "red")
+}
 ```
 
 ## Light
@@ -113,8 +142,8 @@ We can compare light and pressure location at long stationary stopover (>5 days)
       Date = date,
       Light = obs
     )
- dur <- unlist(lapply(static_prob_marginal, function(x) difftime(metadata(x)$temporal_extent[2],metadata(x)$temporal_extent[1], units = "days" )))
-  long_id <- which(dur>5 & seq(1,length(dur))<=length(shortest_path_timeserie))
+ dur <- unlist(lapply(pressure_prob, function(x) difftime(metadata(x)$temporal_extent[2],metadata(x)$temporal_extent[1], units = "days" )))
+  long_id <- which(dur>5)
 
   par(mfrow = c(2, 3))
   for (i_s in long_id){
@@ -141,14 +170,13 @@ Similarly, we can plot the line of sunrise/sunset at the best match of pressure 
                 col = ifelse(twl$deleted, "grey20", ifelse(twl$rise, "firebrick", "cornflowerblue"))
   )
   for (ts in shortest_path_timeserie){
-    if (!is.null(ts)){
     twl_fl <- twl %>%
       filter(twilight>ts$date[1] & twilight<tail(ts$date,1))
     if (nrow(twl_fl)>0){
     tsimageDeploymentLines(twl_fl$twilight,
                            lon = ts$lon[1], ts$lat[1],
                            offset = gpr$shift_k / 60 / 60, lwd = 3,col = adjustcolor("orange", alpha.f = 0.5))
-    }
+      
     }
   }
 ```

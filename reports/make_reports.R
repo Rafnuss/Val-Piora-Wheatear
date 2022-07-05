@@ -3,7 +3,7 @@ library(rmarkdown)
 
 # Define the track to consider
 gdl_list <- read_excel("data/gpr_settings.xlsx") %>%
-  filter(keep>0) %>% # keep: 0: before migration, 1: some migration flight, 2: up to wintering site, 9: full migration
+  filter(keep>1) %>% # keep: 0: before migration, 1: some migration flight, 2: up to wintering site, 9: full migration
   .$gdl_id
 
 # Define the report to produce

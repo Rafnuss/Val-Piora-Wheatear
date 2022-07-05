@@ -1,7 +1,7 @@
 ---
 site: distill::distill_website
 params:
-  gdl_id: "18LX"
+  gdl_id: "26IM"
 ---
 ---
 title: `r params$gdl_id`
@@ -11,6 +11,7 @@ description: |
 
 ```{r setup, message=F}
 library(GeoPressureR)
+library(tidyverse)
 library(leaflet)
 library(leaflet.extras)
 library(raster)
@@ -18,14 +19,17 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 knitr::opts_chunk$set(echo = FALSE)
+load(paste0("../data/1_pressure//", params$gdl_id, "_pressure_prob.Rdata"))
 load(paste0("../data/2_light/", params$gdl_id, "_light_prob.Rdata"))
 load(paste0("../data/3_static/", params$gdl_id, "_static_prob.Rdata"))
-load(paste0("../data/4_basic_graph/", params$gdl_id, "_basic_graph.Rdata"))
+# load(paste0("../data/4_basic_graph/", params$gdl_id, "_basic_graph.Rdata"))
+load(paste0("../data/5_wind_graph/", params$gdl_id, "_wind_graph.Rdata"))
+load(paste0("../data/5_wind_graph/", params$gdl_id, "_grl.Rdata"))
 ```
 
 
 
-## Alitude
+## Altitude
 
 Altitudes are computed based on pressure measurement of the geolocation, corrected based on the assumed location of the shortest path. This correction accounts therefore for the natural variation of pressure as estimated by ERA-5. The vertical lines indicate the sunrise (dashed) and sunset (solid).
 
@@ -42,6 +46,53 @@ p <- ggplot() +
 ggplotly(p, dynamicTicks = T) %>% layout(showlegend = F)
 ```
 
+## Wintering location
+
+```{r, layout="l-page"}
+file <- paste0("figure_print/wintering_location/wintering_location_",params$gdl_id,".png")
+if(file.exists(file)){
+  knitr::include_graphics(file)
+}
+```
+
+## Latitude time
+```{r, layout="l-page"}
+ tmp <- lapply(pressure_prob, function(x) {
+    mt <- metadata(x)
+    df <- data.frame(
+      start = mt$temporal_extent[1],
+      end = mt$temporal_extent[2],
+      sta_id = mt$sta_id
+    )
+  })
+  tmp2 <- do.call("rbind", tmp)
+
+sim_lat <- as.data.frame(t(path_sim$lat)) %>%
+  mutate(sta_id = path_sim$sta_id) %>%
+  pivot_longer(-c(sta_id)) %>%
+  left_join(tmp2,by="sta_id")
+
+sim_lat_p <- sim_lat %>%
+  filter(sta_id==max(sta_id)) %>%
+  mutate(start=end) %>%
+  rbind(sim_lat)
+
+sp_lat <- as.data.frame(shortest_path) %>% left_join(tmp2,by="sta_id")
+
+sp_lat_p <- sp_lat %>%
+  filter(sta_id==max(sta_id)) %>%
+  mutate(start=end) %>%
+  rbind(sp_lat)
+
+p <- ggplot() +
+  geom_step(data=sim_lat_p, aes(x=start, y=value, group=name), alpha=.07, color=gpr$Color) +
+  geom_point(data=sp_lat_p, aes(x=start, y=lat), color=gpr$Color) +
+  xlab('Date') +
+  ylab('Latitude') +
+  theme_light()
+
+ggplotly(p, dynamicTicks = T)
+```
 
 ## Shortest path and simulated path
 
@@ -93,4 +144,121 @@ l %>%
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
   hideGroup(tail(li_s, length(li_s) - 1))
+```
+
+```{r}
+file <- paste0("figure_print/marginal_animation/marginal_animation_",params$gdl_id,".gif")
+if(file.exists(file)){
+  knitr::include_graphics(file)
+}
+```
+## Expected duration of stay
+
+```{r}
+file <- paste0("figure_print/expected_use/post_breeding_",params$gdl_id,".png")
+if(file.exists(file)){
+  knitr::include_graphics(file)
+}
+file <- paste0("figure_print/expected_use/pre_breeding_",params$gdl_id,".png")
+if(file.exists(file)){
+  knitr::include_graphics(file)
+}
+```
+
+## Wind assistance
+
+```{r, warning=F, layout="l-page"}
+  fun_marker_color <- function(norm){
+    if (norm < 20){
+      "darkpurple"
+    } else if (norm < 35){
+      "darkblue"
+    } else if (norm < 50){
+      "lightblue"
+    } else if (norm < 60){
+      "lightgreen"
+    } else if (norm < 80){
+      "yellow"
+    } else if (norm < 100){
+      "lightred"
+    } else {
+      "darkred"
+    }
+  }
+  fun_NSEW <- function(angle){
+    angle <- angle  %% (pi* 2)
+    angle <- angle*180/pi
+    if (angle < 45/2){
+      "E"
+    } else if (angle < 45*3/2){
+      "NE"
+    } else if (angle < 45*5/2){
+      "N"
+    } else if (angle < 45*7/2){
+      "NW"
+    } else if (angle < 45*9/2){
+      "W"
+    } else if (angle < 45*11/2){
+      "SW"
+    } else if (angle < 45*13/2){
+      "S"
+    }else if (angle < 45*15/2){
+      "SE"
+    } else {
+      "E"
+    }
+  }
+
+  sta_duration <- unlist(lapply(static_prob_marginal,function(x){as.numeric(difftime(metadata(x)$temporal_extent[2],metadata(x)$temporal_extent[1],units="days"))}))
+
+  m <-leaflet(width = "100%") %>%
+    addProviderTiles(providers$Stamen.TerrainBackground) %>%  addFullscreenControl() %>%
+    addPolylines(lng = shortest_path$lon, lat = shortest_path$lat, opacity = 1, color = "#808080", weight = 3) %>%
+    addCircles(lng = shortest_path$lon, lat = shortest_path$lat, opacity = 1, color = "#000", weight = sta_duration^(0.3)*10)
+
+  for (i_s in seq_len(grl$sz[3]-1)){
+    if (grl$flight_duration[i_s]>5){
+      edge <- which(grl$s == shortest_path$id[i_s] & grl$t == shortest_path$id[i_s+1])
+
+      label = paste0( i_s,': ', grl$flight[[i_s]]$start, " - ", grl$flight[[i_s]]$end, "<br>",
+                      "F. dur.: ", round(grl$flight_duration[i_s]), ' h <br>',
+                      "GS: ", round(abs(grl$gs[edge])), ' km/h, ',fun_NSEW(Arg(grl$gs[edge])),'<br>',
+                      "WS: ", round(abs(grl$ws[edge])), ' km/h, ',fun_NSEW(Arg(grl$ws[edge])),'<br>',
+                      "AS: ", round(abs(grl$as[edge])), ' km/h, ',fun_NSEW(Arg(grl$as[edge])),'<br>')
+
+      iconArrow <- makeAwesomeIcon(icon = "arrow-up",
+                                   library = "fa",
+                                   iconColor = "#FFF",
+                                   iconRotate = (90 - Arg(grl$ws[edge])/pi*180) %% 360,
+                                   squareMarker = TRUE,
+                                   markerColor = fun_marker_color(abs(grl$ws[edge])))
+
+      m <- m %>% addAwesomeMarkers(lng = (shortest_path$lon[i_s] + shortest_path$lon[i_s+1])/2,
+                                   lat = (shortest_path$lat[i_s] + shortest_path$lat[i_s+1])/2,
+                                   icon = iconArrow, popup = label)
+    }
+  }
+  m
+```
+
+## Histogram of Speed
+```{r, warning=F, layout="l-page", fig.height=5}
+edge <- t(graph_path2edge(path_sim$id, grl))
+
+speed_df <- data.frame(
+  as = abs(grl$as[edge]),
+  gs = abs(grl$gs[edge]),
+  ws = abs(grl$ws[edge]),
+  sta_id_s = rep(head(grl$sta_id,-1), ncol(edge)),
+  sta_id_t = rep(tail(grl$sta_id,-1), ncol(edge)),
+  flight_duration = rep(head(grl$flight_duration,-1), ncol(edge))
+)
+speed_df$name = paste(speed_df$sta_id_s,speed_df$sta_id_t, sep="-")
+
+plot1 <- ggplot(speed_df, aes(reorder(name, sta_id_s), gs)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+plot2 <- ggplot(speed_df, aes(reorder(name, sta_id_s), ws)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+plot3 <- ggplot(speed_df, aes(reorder(name, sta_id_s), as)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+plot4 <- ggplot(speed_df, aes(reorder(name, sta_id_s), flight_duration)) + geom_point() + theme_bw() +scale_x_discrete(name = "")
+
+subplot(ggplotly(plot1), ggplotly(plot2), ggplotly(plot3), ggplotly(plot4), nrows=4, titleY=T)
 ```

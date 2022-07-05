@@ -20,13 +20,11 @@ grl <- graph_create(static_prob,
 # If you get an error with trimming, use geopressureviz from end of 3.static.R
 
 # Add probability of each edge
-#grl$p <- grl$ps * flight_prob(grl$gs, method = "gamma", shape = 7, scale = 7, low_speed_fix = 40)
-grl$p <- grl$ps * flight_prob(grl$gs, method = "gamma", shape = 4, scale = 7, low_speed_fix = 60)
+# grl$p <- grl$ps * flight_prob(grl$gs, method = "gamma", shape = 4, scale = 7, low_speed_fix = 40)
+grl$p <- grl$ps * flight_prob(grl$gs, method = "logis", location = 40, scale = 6, low_speed_fix = 0)
 
-
-
-
-
+# sp <- seq(1,100)
+# plot(sp,flight_prob(sp, method = "logis", location = 40, scale = 7, low_speed_fix = 0))
 
 
 
@@ -52,7 +50,7 @@ shortest_path_df <- as.data.frame(shortest_path)
 shortest_path_timeserie <- geopressure_ts_path(shortest_path_df, pam$pressure, include_flight = c(0, 1))
 
 # Simulation ----
-nj <- 10
+nj <- 30
 path_sim <- graph_simulation(grl, nj = nj)
 
 
@@ -127,11 +125,11 @@ if (debug) {
 }
 
 
-# Save
+# Save ----
 save( # grl, we are excluding grl because of its size on this repo. Feel free to keep it in your own project
   path_sim,
   shortest_path,
   static_prob_marginal,
   shortest_path_timeserie,
-  file = paste0("data/4_basic_graph/", gpr$gdl_id, "_basic_graph.Rdata")
+  file = paste0("data/4_basic_graph/", gdl, "_basic_graph.Rdata")
 )

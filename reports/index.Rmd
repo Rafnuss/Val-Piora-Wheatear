@@ -5,6 +5,7 @@ description: |
 site: distill::distill_website
 ---
 
+
  You can navigate from this page to all the report generated. 
 
 ```{r, results = "asis", echo = FALSE}
@@ -25,3 +26,15 @@ for (i_f_dir in unique(f_dirname)) {
   cat("\n")
 }
 ```
+
+
+## Trajectories
+
+![](figure_print/movevis.gif){width="438"}
+
+
+## Cummulative hours of flight
+
+![](figure_print/cumulative_flight.png){width="438"}
+
+

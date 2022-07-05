@@ -40,3 +40,10 @@ vignettes/*.pdf
 .Rproj.user
 .Rdata
 .DS_Store
+
+
+
+
+.RDataTmp
+*.nc
+*.Rdata
