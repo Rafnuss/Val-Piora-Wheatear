@@ -560,24 +560,89 @@ for (i in seq(1, length(gdl_list))) {
   load(paste0("data/5_wind_graph/", gdl, "_wind_graph.Rdata"))
   load(paste0("data/5_wind_graph/", gdl, "_grl.Rdata"))
 
-edge <- t(graph_path2edge(path_sim$id, grl))
+  edge <- t(graph_path2edge(path_sim$id, grl))
+  nj <- ncol(edge)
 
-speed_df <- data.frame(
-  as = abs(grl$as[edge]),
-  gs = abs(grl$gs[edge]),
-  ws = abs(grl$ws[edge]),
-  sta_id_s = rep(head(grl$sta_id,-1), nj),
-  sta_id_t = rep(tail(grl$sta_id,-1), nj),
-  flight_duration = rep(head(grl$flight_duration,-1), nj)
-)
-speed_df$name = paste(speed_df$sta_id_s,speed_df$sta_id_t, sep="-")
+  speed_df <- data.frame(
+    as = abs(grl$as[edge]),
+    gs = abs(grl$gs[edge]),
+    ws = abs(grl$ws[edge]),
+    sta_id_s = rep(head(grl$sta_id,-1), nj),
+    sta_id_t = rep(tail(grl$sta_id,-1), nj),
+    flight_duration = rep(head(grl$flight_duration,-1), nj)
+  ) %>% mutate(
+    name = paste(sta_id_s,sta_id_t, sep="-")
+  )
 
-plot1 <- ggplot(speed_df, aes(reorder(name, sta_id_s), gs)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
-plot2 <- ggplot(speed_df, aes(reorder(name, sta_id_s), ws)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
-plot3 <- ggplot(speed_df, aes(reorder(name, sta_id_s), as)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
-plot4 <- ggplot(speed_df, aes(reorder(name, sta_id_s), flight_duration)) + geom_point() + theme_bw() +scale_x_discrete(name = "")
-# grid.arrange(plot1, plot2, plot3, plot4, nrow=4)
+  plot1 <- ggplot(speed_df, aes(reorder(name, sta_id_s), gs)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+  plot2 <- ggplot(speed_df, aes(reorder(name, sta_id_s), ws)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+  plot3 <- ggplot(speed_df, aes(reorder(name, sta_id_s), as)) + geom_boxplot() + theme_bw() +scale_x_discrete(name = "")
+  plot4 <- ggplot(speed_df, aes(reorder(name, sta_id_s), flight_duration)) + geom_point() + theme_bw() +scale_x_discrete(name = "")
+  # grid.arrange(plot1, plot2, plot3, plot4, nrow=4)
 
-p <- arrangeGrob(plot1, plot2, plot3, plot4, nrow=4)
-ggsave(paste0("reports/figure_print/hist_speed_plot/hist_speed_plot_", gdl, ".png"), plot = p, width=16, height=9)
+  p <- arrangeGrob(plot1, plot2, plot3, plot4, nrow=4)
+  ggsave(paste0("reports/figure_print/hist_speed_plot/hist_speed_plot_", gdl, ".png"), plot = p, width=16, height=9)
+}
+
+
+
+
+
+
+# Table of transition ----
+for (i in seq(1, length(gdl_list))) {
+  gdl <- gdl_list[i]
+  load(paste0("data/1_pressure/", gdl, "_pressure_prob.Rdata"))
+  load(paste0("data/5_wind_graph/", gdl, "_wind_graph.Rdata"))
+  load(paste0("data/5_wind_graph/", gdl, "_grl.Rdata"))
+
+  edge <- t(graph_path2edge(path_sim$id, grl))
+  nj <- ncol(edge)
+  nsta <- ncol(path_sim$lon)
+
+  speed_df <- data.frame(
+    as = abs(grl$as[edge]),
+    gs = abs(grl$gs[edge]),
+    ws = abs(grl$ws[edge]),
+    sta_id_s = rep(head(grl$sta_id,-1), nj),
+    sta_id_t = rep(tail(grl$sta_id,-1), nj),
+    flight_duration = rep(head(grl$flight_duration,-1), nj),
+    dist = geosphere::distGeo(
+      cbind(as.vector(t(path_sim$lon[,1:nsta-1])), as.vector(t(path_sim$lat[,1:nsta-1]))),
+      cbind(as.vector(t(path_sim$lon[,2:nsta])),   as.vector(t(path_sim$lat[,2:nsta])))
+    ) / 1000
+  ) %>% mutate(
+    name = paste(sta_id_s,sta_id_t, sep="-")
+  )
+
+  alt_df = do.call("rbind", shortest_path_timeserie) %>%
+    arrange(date) %>%
+    mutate(
+      sta_id_s = cummax(sta_id),
+      sta_id_t = sta_id_s+1
+    ) %>%
+    filter(sta_id == 0 & sta_id_s > 0 ) %>%
+    group_by(sta_id_s, sta_id_t) %>%
+    summarise(
+      alt_min = min(altitude),
+      alt_max = max(altitude),
+      alt_mean = mean(altitude),
+      alt_med = median(altitude),
+    )
+
+  trans_df <- speed_df  %>%
+    group_by(sta_id_s,sta_id_t,flight_duration) %>%
+    summarise(
+      as_m = mean(as),
+      as_s = sd(as),
+      gs_m = mean(gs),
+      gs_s = sd(gs),
+      ws_m = mean(ws),
+      ws_s = sd(ws),
+      dist_m = mean(dist),
+      dist_s = sd(dist)
+    ) %>%
+    left_join(alt_df)
+
+  write.csv(trans_df,paste0("reports/figure_print/table_transition/", gdl, ".csv"))
 }
