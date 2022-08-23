@@ -44,7 +44,7 @@ shortest_path_df <- as.data.frame(shortest_path)
 shortest_path_timeserie <- geopressure_ts_path(shortest_path_df, pam$pressure, include_flight = c(0, 1))
 
 # Simulation ----
-nj <- 30
+nj <- 100
 path_sim <- graph_simulation(grl, nj = nj)
 
 

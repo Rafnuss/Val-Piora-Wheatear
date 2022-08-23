@@ -4,7 +4,6 @@ params:
   gdl_id: "24TJ"
 ---
 ---
-title: `r params$gdl_id`
 description: | 
   Technical details
 ---
