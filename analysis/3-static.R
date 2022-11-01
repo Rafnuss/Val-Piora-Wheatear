@@ -156,9 +156,7 @@ if (debug) {
 }
 
 ## Save
-save(pam,
-  col,
-  gpr,
+save(
   static_prob,
   static_timeserie,
   file = paste0("data/3_static/", gdl, "_static_prob.Rdata")
