@@ -1,13 +1,12 @@
 # This script generate the reports and the website
 library(rmarkdown)
+library(readxl)
 
 # Define the track to consider
-gdl_list <- read_excel("data/gpr_settings.xlsx") %>%
-  filter(keep>1) %>% # keep: 0: before migration, 1: some migration flight, 2: up to wintering site, 9: full migration
-  .$gdl_id
+gdl_list <- c("26IM", "26IL", "26HS", "24EA", "24TJ", "16IQ", "20TJ", "24IS")
 
 # Define the report to produce
-report_list <- c("basic_trajectory", "technical_details")
+report_list <- c("wind_trajectory", "technical_details")
 
 # Generate the following report for each tracks
 # This will produce an HTML file for each reports
@@ -32,7 +31,7 @@ for (report in report_list) {
   str <- paste0(str,'- text: "',report,'"\n  menu:\n')
   for (gdl in gdl_list) {
     str <- paste0(str,'   - text: "',gdl,'"\n')
-    str <- paste0(str,'     href: "/Val-Piora-Wheatear/',report,'/',gdl,'.html\n')
+    str <- paste0(str,'     href: "/Val-Piora-Wheatear/',report,'/',gdl,'.html"\n')
   }
 }
 writeLines(str)

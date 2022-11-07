@@ -1,13 +1,13 @@
 ---
 site: distill::distill_website
 params:
-  gdl_id: "24TJ"
+  gdl_id: "24IS"
 ---
 ---
+title: `r params$gdl_id`
 description: | 
   Technical details
 ---
-
 
 ```{r setup, message=F}
 library(GeoPressureR)
@@ -25,6 +25,8 @@ load(paste0("../data/1_pressure/", params$gdl_id, "_pressure_prob.Rdata"))
 load(paste0("../data/2_light/", params$gdl_id, "_light_prob.Rdata"))
 load(paste0("../data/3_static/", params$gdl_id, "_static_prob.Rdata"))
 load(paste0("../data/4_basic_graph/", params$gdl_id, "_basic_graph.Rdata"))
+load(paste0("../data/5_wind_graph/", params$gdl_id, "_wind_graph.Rdata"))
+col <- rep(RColorBrewer::brewer.pal(8, "Dark2"), times = ceiling(max(pam$sta$sta_id) / 8))
 ```
 
 ## Settings used
@@ -41,10 +43,10 @@ The labeling of pressure data is illustrated with this figure. The black dots in
 
 ```{r, layout="l-page"}
 pressure_na <- pam$pressure %>%
-  mutate(obs = ifelse(isoutliar | sta_id == 0, NA, obs))
+  mutate(obs = ifelse(isoutlier | sta_id == 0, NA, obs))
 p <- ggplot() +
   geom_line(data = pam$pressure, aes(x = date, y = obs), colour = "grey") +
-  geom_point(data = subset(pam$pressure, isoutliar), aes(x = date, y = obs), colour = "black") +
+  # geom_point(data = subset(pam$pressure, isoutlier), aes(x = date, y = obs), colour = "black") +
   # geom_line(data = pressure_na, aes(x = date, y = obs, color = factor(sta_id)), size = 0.5) +
   geom_line(data = do.call("rbind", shortest_path_timeserie) %>% filter(sta_id > 0), aes(x = date, y = pressure0, col = factor(sta_id))) +
   theme_bw() +
@@ -57,30 +59,20 @@ ggplotly(p, dynamicTicks = T) %>% layout(showlegend = F)
 ## Pressure calibration
 
 ```{r, layout="l-page"}
-sp_pressure = do.call("rbind", shortest_path_timeserie) %>% filter(sta_id > 0)
+pressure_ts_bind <- do.call("rbind", shortest_path_timeserie) %>%
+  filter(!is.na(sta_id))
 
-sta_plot <- which(difftime(pam$sta$end,pam$sta$start,unit="days")>3)
-
-par(mfrow=c(2,3))
-for (i in seq_len(length(sta_plot))){
-  i_s = sta_plot[i]
-  pressure_s = pam$pressure %>% 
-    filter(sta_id==i_s & !isoutliar)
-  
-  if (nrow(pressure_s)==0){
-    break
-  }
-  
-    err <- pressure_s %>% left_join(sp_pressure, by="date") %>% 
-      mutate(
-        err = obs-pressure-mean(obs-pressure)
-      ) %>% .$err
-    
-    hist(err, freq = F, main = paste0("sta_id=",i_s, " | ",nrow(pressure_s)," dtpts | std=",round(sd(err),2)))
-   xfit <- seq(min(err), max(err), length = 40) 
-    yfit <- dnorm(xfit, mean = mean(err), sd = sd(err)) 
-    lines(xfit, yfit, col = "red")
-}
+pam$pressure %>%
+  left_join(pressure_ts_bind %>% dplyr::select(c("date", "pressure0")), by = "date") %>%
+  mutate(diff = ifelse(is.na(pressure0), 0, obs - pressure0)) %>%
+  filter(sta_id > 0 & !isoutlier) %>%
+  group_by(sta_id) %>%
+  mutate(sta_id = paste0(sta_id, " (SD=", round(sd(diff), 2), " ; N=", n(), ")")) %>%
+  ggplot(aes(x = diff)) +
+  geom_histogram(aes(y = (..count..) / tapply(..count.., ..PANEL.., sum)[..PANEL..]), binwidth = .2) +
+  facet_wrap(~sta_id) +
+  scale_x_continuous(name = "Pressure Geolocator - best match ERA5 (hPa)") +
+  scale_y_continuous(name = "Normalized histogram")
 ```
 
 ## Light
@@ -180,39 +172,8 @@ Similarly, we can plot the line of sunrise/sunset at the best match of pressure 
   }
 ```
 
-## GeoPressureViz
-
-To visualize the path on GeoPressureViz, you will need to also load the pressure and light probability map and align them first with the code below. 
-
-```{r,  eval=F, layout="l-page"}
-sta_marginal <- unlist(lapply(static_prob_marginal, function(x) raster::metadata(x)$sta_id))
-sta_pres <- unlist(lapply(pressure_prob, function(x) raster::metadata(x)$sta_id))
-sta_light <- unlist(lapply(light_prob, function(x) raster::metadata(x)$sta_id))
-pressure_prob <- pressure_prob[sta_pres %in% sta_marginal]
-light_prob <- light_prob[sta_light %in% sta_marginal]
-```
-
-The code below will open with the shortest path computed with the graph approach.
-
-```{r, eval = F, class.source = 'fold-show'}
-geopressureviz <- list(
-  pam_data = pam,
-  static_prob = static_prob,
-  static_prob_marginal = static_prob_marginal,
-  pressure_prob = pressure_prob,
-  light_prob = light_prob,
-  pressure_timeserie = shortest_path_timeserie
-)
-save(geopressureviz, file = "~/geopressureviz.RData")
-
-shiny::runApp(system.file("geopressureviz", package = "GeoPressureR"),
-  launch.browser = getOption("browser")
-)
-```
-
-
 ## Stationay period information
 
-```{r}
-pam$sta %>% kable()
+```{r layout="l-page"}
+read_csv(paste0("../reports/figure_print/table_transition/transition_", params$gdl_id, ".csv")) %>% kable() %>% scroll_box(width = "100%")
 ```

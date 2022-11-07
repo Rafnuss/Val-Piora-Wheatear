@@ -4,12 +4,14 @@ library(readxl)
 gdl_list <- read_excel("data/gpr_settings.xlsx") %>%
   filter(keep>1) %>% # keep: 0: before migration, 1: some migration flight, 2: up to wintering site, 9: full migration
   .$gdl_id
+gdl_list <- c("26IM", "26IL", "26HS", "24EA", "24TJ", "16IQ", "20TJ", "24IS")
+
 
 for (i in seq(1, length(gdl_list))) {
   gdl <- gdl_list[i]
-  # source("analysis/1-pressure.R")
-  # source("analysis/2-light.R")
-  # source("analysis/3-static.R")
+  source("analysis/1-pressure.R")
+  source("analysis/2-light.R")
+  source("analysis/3-static.R")
   source("analysis/4-basic-graph.R")
   source("analysis/5-2-wind-graph_create.R")
   source("analysis/5-3-wind-graph_analyse.R")

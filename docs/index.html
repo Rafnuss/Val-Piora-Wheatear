@@ -788,6 +788,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1860,15 +1861,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -2067,7 +2074,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2098,24 +2105,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <a href="index.html" class="title">Val Piora Wheatear</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-Basic Trajectory
+Wind Trajectory
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="/Val-Piora-Wheatear/basic_trajectory/26IM.html">26IM</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/26IL.html">26IL</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/26HS.html">26HS</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/24EA.html">24EA</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/24EP.html">24EP</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/24DK.html">24DK</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/24TJ.html">24TJ</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/16IQ.html">16IQ</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/16JL.html">16JL</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/16JB.html">16JB</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/16IT.html">16IT</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/20TJ.html">20TJ</a>
-<a href="/Val-Piora-Wheatear/basic_trajectory/24IS.html">24IS</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/26IM.html">26IM</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/26IL.html">26IL</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/26HS.html">26HS</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/24EA.html">24EA</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/24TJ.html">24TJ</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/16IQ.html">16IQ</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/20TJ.html">20TJ</a>
+<a href="/Val-Piora-Wheatear/wind_trajectory/24IS.html">24IS</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2129,13 +2131,8 @@ Technical Details
 <a href="/Val-Piora-Wheatear/technical_details/26IL.html">26IL</a>
 <a href="/Val-Piora-Wheatear/technical_details/26HS.html">26HS</a>
 <a href="/Val-Piora-Wheatear/technical_details/24EA.html">24EA</a>
-<a href="/Val-Piora-Wheatear/technical_details/24EP.html">24EP</a>
-<a href="/Val-Piora-Wheatear/technical_details/24DK.html">24DK</a>
 <a href="/Val-Piora-Wheatear/technical_details/24TJ.html">24TJ</a>
 <a href="/Val-Piora-Wheatear/technical_details/16IQ.html">16IQ</a>
-<a href="/Val-Piora-Wheatear/technical_details/16JL.html">16JL</a>
-<a href="/Val-Piora-Wheatear/technical_details/16JB.html">16JB</a>
-<a href="/Val-Piora-Wheatear/technical_details/16IT.html">16IT</a>
 <a href="/Val-Piora-Wheatear/technical_details/20TJ.html">20TJ</a>
 <a href="/Val-Piora-Wheatear/technical_details/24IS.html">24IS</a>
 </div>
@@ -2170,49 +2167,43 @@ Technical Details
 <h3>Contents</h3>
 <ul>
 <li><a href="#trajectories" id="toc-trajectories">Trajectories</a></li>
-<li><a href="#cummulative-hours-of-flight"
-id="toc-cummulative-hours-of-flight">Cummulative hours of
-flight</a></li>
+<li><a href="#wintering-location" id="toc-wintering-location">Wintering location</a></li>
+<li><a href="#cummulative-hours-of-flight" id="toc-cummulative-hours-of-flight">Cummulative hours of flight</a></li>
 </ul>
 </nav>
 </div>
 <p>You can navigate from this page to all the report generated.</p>
+<h2 id="trajectories">Trajectories</h2>
+<p><img src="figure_print/movevis.gif" width="438" /></p>
+<p><img src="figure_print/trajectory/trajectory_combined.png" style="width:100.0%" /></p>
+<h2 id="wintering-location">Wintering location</h2>
+<p><img src="figure_print/wintering_location/wintering_location.png" style="width:100.0%" /></p>
+<h2 id="cummulative-hours-of-flight">Cummulative hours of flight</h2>
+<p><img src="figure_print/cumulative_flight.png" width="438" /></p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># List all the html file found on in the reports/html folder</span>
-<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"."</span>, patter <span class='op'>=</span> <span class='st'>"*.html"</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>f_dirname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>dirname</span><span class='op'>)</span>
-<span class='va'>f_basename</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>basename</span><span class='op'>)</span>
-
-<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_f_dir</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>f_dirname</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"## "</span>, <span class='fu'>tools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/toTitleCase.html'>toTitleCase</a></span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_replace.html'>str_replace_all</a></span><span class='op'>(</span><span class='va'>i_f_dir</span>, <span class='st'>"_"</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"\n"</span><span class='op'>)</span>
-  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_f</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>f_dirname</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>==</span> <span class='va'>i_f_dir</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"* &lt;a href='"</span>, <span class='va'>f</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span>, <span class='st'>"'&gt;"</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>sub</a></span><span class='op'>(</span><span class='st'>"\\.html$"</span>, <span class='st'>""</span>, <span class='va'>f_basename</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>, <span class='st'>"&lt;/a&gt;"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span>
-    <span class='op'>}</span>
-  <span class='op'>}</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"\n"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># List all the html file found on in the reports/html folder</span></span>
+<span><span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"."</span>, patter <span class='op'>=</span> <span class='st'>"*.html"</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>f_dirname</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>dirname</span><span class='op'>)</span></span>
+<span><span class='va'>f_basename</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>f</span>, <span class='va'>basename</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_f_dir</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>f_dirname</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"## "</span>, <span class='fu'>tools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/toTitleCase.html'>toTitleCase</a></span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_replace.html'>str_replace_all</a></span><span class='op'>(</span><span class='va'>i_f_dir</span>, <span class='st'>"_"</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"\n"</span><span class='op'>)</span></span>
+<span>  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i_f</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>f_dirname</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>==</span> <span class='va'>i_f_dir</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"* &lt;a href='"</span>, <span class='va'>f</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span>, <span class='st'>"'&gt;"</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>sub</a></span><span class='op'>(</span><span class='st'>"\\.html$"</span>, <span class='st'>""</span>, <span class='va'>f_basename</span><span class='op'>[[</span><span class='va'>i_f</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>, <span class='st'>"&lt;/a&gt;"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span></span>
+<span>    <span class='op'>}</span></span>
+<span>  <span class='op'>}</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"\n"</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span></code></pre>
 </div>
 </details>
-<h2 id="basic-trajectory">Basic Trajectory</h2>
-<ul>
-<li><a href=' basic_trajectory/16IQ.html '> 16IQ </a></li>
-<li><a href=' basic_trajectory/20TJ.html '> 20TJ </a></li>
-<li><a href=' basic_trajectory/24EA.html '> 24EA </a></li>
-<li><a href=' basic_trajectory/24IS.html '> 24IS </a></li>
-<li><a href=' basic_trajectory/24TJ.html '> 24TJ </a></li>
-<li><a href=' basic_trajectory/26HS.html '> 26HS </a></li>
-<li><a href=' basic_trajectory/26IL.html '> 26IL </a></li>
-<li><a href=' basic_trajectory/26IM.html '> 26IM </a></li>
-</ul>
 <h2 id="technical-details">Technical Details</h2>
 <ul>
 <li><a href=' technical_details/16IQ.html '> 16IQ </a></li>
@@ -2224,13 +2215,19 @@ Show code
 <li><a href=' technical_details/26IL.html '> 26IL </a></li>
 <li><a href=' technical_details/26IM.html '> 26IM </a></li>
 </ul>
+<h2 id="wind-trajectory">Wind Trajectory</h2>
+<ul>
+<li><a href=' wind_trajectory/16IQ.html '> 16IQ </a></li>
+<li><a href=' wind_trajectory/20TJ.html '> 20TJ </a></li>
+<li><a href=' wind_trajectory/24EA.html '> 24EA </a></li>
+<li><a href=' wind_trajectory/24IS.html '> 24IS </a></li>
+<li><a href=' wind_trajectory/24TJ.html '> 24TJ </a></li>
+<li><a href=' wind_trajectory/26HS.html '> 26HS </a></li>
+<li><a href=' wind_trajectory/26IL.html '> 26IL </a></li>
+<li><a href=' wind_trajectory/26IM.html '> 26IM </a></li>
+</ul>
 </div>
-<h2 id="trajectories">Trajectories</h2>
-<p><img src="figure_print/movevis.gif" width="438" /></p>
-<h2 id="cummulative-hours-of-flight">Cummulative hours of flight</h2>
-<p><img src="figure_print/cumulative_flight.png" width="438" /></p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
