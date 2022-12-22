@@ -1,0 +1,343 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.4.0
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+
+cff-version: 1.2.0
+message: 'To cite package "Val-Piora-Wheatear" in publications use:'
+type: software
+license: GPL-3.0-or-later
+title: 'Val-Piora-Wheatear: Trajectories of Northern Wheatears breeding in Val Piora'
+version: '0.3'
+authors:
+- family-names: Nussbaumer
+  given-names: Raphaël
+  email: rafnuss@gmail.com
+  orcid: https://orcid.org/0000-0002-8185-1020
+contact:
+- family-names: Rime
+  given-names: Yann
+  email: Yann.Rime@vogelwarte.ch
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2022'
+  institution:
+    name: R Foundation for Statistical Computing
+  version: '>= 3.5.0'
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Imports
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Müller
+    given-names: Kirill
+    orcid: https://orcid.org/0000-0002-1416-3412
+  year: '2022'
+- type: software
+  title: GeoPressureR
+  abstract: 'GeoPressureR: Global Positioning by Atmospheric Pressure'
+  notes: Imports
+  url: https://raphaelnussbaumer.com/GeoPressureR/
+  authors:
+  - family-names: Nussbaumer
+    given-names: Raphaël
+    email: rafnuss@gmail.com
+    orcid: https://orcid.org/0000-0002-8185-1020
+  - family-names: Gravey
+    given-names: Mathieu
+    email: mathieu@mgravey.com
+    orcid: https://orcid.org/0000-0002-0871-1507
+  year: '2022'
+- type: software
+  title: ggplot2
+  abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
+  notes: Imports
+  url: https://ggplot2.tidyverse.org
+  repository: https://CRAN.R-project.org/package=ggplot2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Chang
+    given-names: Winston
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@rstudio.com
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Takahashi
+    given-names: Kohske
+  - family-names: Wilke
+    given-names: Claus
+    orcid: https://orcid.org/0000-0002-7470-9261
+  - family-names: Woo
+    given-names: Kara
+    orcid: https://orcid.org/0000-0002-5125-4188
+  - family-names: Yutani
+    given-names: Hiroaki
+    orcid: https://orcid.org/0000-0002-3385-7233
+  - family-names: Dunnington
+    given-names: Dewey
+    orcid: https://orcid.org/0000-0002-9415-4582
+  year: '2022'
+- type: software
+  title: igraph
+  abstract: 'igraph: Network Analysis and Visualization'
+  notes: Imports
+  url: https://igraph.org
+  repository: https://CRAN.R-project.org/package=igraph
+  authors:
+  - family-names: file.
+    given-names: See AUTHORS
+  year: '2022'
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Imports
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2022'
+- type: software
+  title: leaflet
+  abstract: 'leaflet: Create Interactive Web Maps with the JavaScript ''Leaflet''
+    Library'
+  notes: Imports
+  url: https://rstudio.github.io/leaflet/
+  repository: https://CRAN.R-project.org/package=leaflet
+  authors:
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@rstudio.com
+  - family-names: Karambelkar
+    given-names: Bhaskar
+  - family-names: Xie
+    given-names: Yihui
+  year: '2022'
+- type: software
+  title: leaflet.extras
+  abstract: 'leaflet.extras: Extra Functionality for ''leaflet'' Package'
+  notes: Imports
+  url: https://bhaskarvk.github.io/leaflet.extras/
+  repository: https://CRAN.R-project.org/package=leaflet.extras
+  authors:
+  - family-names: Karambelkar
+    given-names: Bhaskar
+    email: bhaskarvk@gmail.com
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@rstudio.com
+  year: '2022'
+- type: software
+  title: leaflet.providers
+  abstract: 'leaflet.providers: Leaflet Providers'
+  notes: Imports
+  url: https://github.com/rstudio/leaflet.providers
+  repository: https://CRAN.R-project.org/package=leaflet.providers
+  authors:
+  - family-names: Huang
+    given-names: Leslie
+    email: lesliehuang@nyu.edu
+  year: '2022'
+- type: software
+  title: lubridate
+  abstract: 'lubridate: Make Dealing with Dates a Little Easier'
+  notes: Imports
+  url: https://lubridate.tidyverse.org
+  repository: https://CRAN.R-project.org/package=lubridate
+  authors:
+  - family-names: Spinu
+    given-names: Vitalie
+    email: spinuvit@gmail.com
+  - family-names: Grolemund
+    given-names: Garrett
+  - family-names: Wickham
+    given-names: Hadley
+  year: '2022'
+- type: software
+  title: ncdf4
+  abstract: 'ncdf4: Interface to Unidata netCDF (Version 4 or Earlier) Format Data
+    Files'
+  notes: Imports
+  url: https://cirrus.ucsd.edu/~pierce/ncdf/
+  repository: https://CRAN.R-project.org/package=ncdf4
+  authors:
+  - family-names: Pierce
+    given-names: David
+    email: dpierce@ucsd.edu
+  year: '2022'
+- type: software
+  title: plotly
+  abstract: 'plotly: Create Interactive Web Graphics via ''plotly.js'''
+  notes: Imports
+  url: https://plotly-r.com
+  repository: https://CRAN.R-project.org/package=plotly
+  authors:
+  - family-names: Sievert
+    given-names: Carson
+    email: cpsievert1@gmail.com
+    orcid: https://orcid.org/0000-0002-4958-2844
+  - family-names: Parmer
+    given-names: Chris
+    email: chris@plot.ly
+  - family-names: Hocking
+    given-names: Toby
+    email: tdhock5@gmail.com
+  - family-names: Chamberlain
+    given-names: Scott
+    email: myrmecocystus@gmail.com
+  - family-names: Ram
+    given-names: Karthik
+    email: karthik.ram@gmail.com
+  - family-names: Corvellec
+    given-names: Marianne
+    email: marianne.corvellec@igdore.org
+    orcid: https://orcid.org/0000-0002-1994-3581
+  - family-names: Despouy
+    given-names: Pedro
+    email: pedro@plot.ly
+  year: '2022'
+- type: software
+  title: raster
+  abstract: 'raster: Geographic Data Analysis and Modeling'
+  notes: Imports
+  url: https://rspatial.org/raster
+  repository: https://CRAN.R-project.org/package=raster
+  authors:
+  - family-names: Hijmans
+    given-names: Robert J.
+    email: r.hijmans@gmail.com
+    orcid: https://orcid.org/0000-0001-5872-2872
+  year: '2022'
+- type: software
+  title: RColorBrewer
+  abstract: 'RColorBrewer: ColorBrewer Palettes'
+  notes: Imports
+  repository: https://CRAN.R-project.org/package=RColorBrewer
+  authors:
+  - family-names: Neuwirth
+    given-names: Erich
+    email: erich.neuwirth@univie.ac.at
+  year: '2022'
+- type: software
+  title: readr
+  abstract: 'readr: Read Rectangular Text Data'
+  notes: Imports
+  url: https://readr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=readr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Bryan
+    given-names: Jennifer
+    email: jenny@rstudio.com
+    orcid: https://orcid.org/0000-0002-6983-2759
+  year: '2022'
+- type: software
+  title: readxl
+  abstract: 'readxl: Read Excel Files'
+  notes: Imports
+  url: https://readxl.tidyverse.org
+  repository: https://CRAN.R-project.org/package=readxl
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Bryan
+    given-names: Jennifer
+    email: jenny@rstudio.com
+    orcid: https://orcid.org/0000-0002-6983-2759
+  year: '2022'
+- type: software
+  title: rmarkdown
+  abstract: 'rmarkdown: Dynamic Documents for R'
+  notes: Imports
+  url: https://pkgs.rstudio.com/rmarkdown/
+  repository: https://CRAN.R-project.org/package=rmarkdown
+  authors:
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@rstudio.com
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@rstudio.com
+  - family-names: Luraschi
+    given-names: Javier
+    email: javier@rstudio.com
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@rstudio.com
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@rstudio.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@rstudio.com
+  - family-names: Chang
+    given-names: Winston
+    email: winston@rstudio.com
+  - family-names: Iannone
+    given-names: Richard
+    email: rich@rstudio.com
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2022'
+- type: software
+  title: distill
+  abstract: 'distill: ''R Markdown'' Format for Scientific and Technical Writing'
+  notes: Imports
+  url: https://pkgs.rstudio.com/distill
+  repository: https://CRAN.R-project.org/package=distill
+  authors:
+  - family-names: Dervieux
+    given-names: Christophe
+    email: cderv@rstudio.com
+    orcid: https://orcid.org/0000-0003-4474-2498
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@rstudio.com
+    orcid: https://orcid.org/0000-0003-0174-9868
+  - family-names: Iannone
+    given-names: Rich
+  - family-names: Presmanes Hill
+    given-names: Alison
+    orcid: https://orcid.org/0000-0002-8082-1890
+  - family-names: Xie
+    given-names: Yihui
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2022'
