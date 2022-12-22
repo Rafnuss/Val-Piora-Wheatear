@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/485028643.svg)](https://zenodo.org/badge/latestdoi/485028643)
+
 # Val Piora Wheatear
 Trajectories of Northern Wheatears breeding in Val Piora.
 
