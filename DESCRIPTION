@@ -1,6 +1,6 @@
 Package: Val-Piora-Wheatear
 Title: Trajectories of Northern Wheatears breeding in Val Piora
-Version: 0.3
+Version: 0.4
 Authors@R: 
     person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8185-1020"))

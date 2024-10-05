@@ -1,0 +1,29 @@
+ring_number,tag_id,observation_type,datetime,latitude,longitude,location_name,device_status,observer,catching_method,life_stage,sex,condition,mass,wing_length,additional_metric,observation_comments
+,16IQ,equipment,2016-07-01T00:00:00Z,46.5427,8.68364,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,16IQ,retrieval,2017-01-28T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,16IT,equipment,2016-07-01T00:00:00Z,46.54849,8.68682,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,16IT,retrieval,2016-10-04T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,16JB,equipment,2016-07-01T00:00:00Z,46.54841,8.72989,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,16JB,retrieval,2016-09-28T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,16JL,equipment,2016-07-01T00:00:00Z,46.54263,8.68315,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,16JL,retrieval,2016-11-12T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,20TJ,equipment,2018-08-01T00:00:00Z,46.550143,8.703374,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,20TJ,retrieval,2018-11-08T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,20TZ,equipment,2018-08-01T00:00:00Z,46.553141,8.690984,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,20TZ,retrieval,2018-09-18T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,24DK,equipment,2019-07-20T00:00:00Z,44.95344,6.96995,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,24DK,retrieval,2019-09-17T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,24EA,equipment,2019-07-20T00:00:00Z,44.95177,6.96333,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,24EA,retrieval,2019-10-31T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,24EP,equipment,2019-07-20T00:00:00Z,44.95177,6.96333,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,24EP,retrieval,2019-10-12T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,24IS,equipment,2019-08-01T00:00:00Z,46.554927,8.692212,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,24IS,retrieval,2019-10-16T00:00:00Z,,,,,,,0,U,,,,,Automatically computed with `params2o()`
+,24TJ,equipment,2020-07-31T00:00:00Z,44.974711,6.956946,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,24TJ,retrieval,2021-06-05T00:00:00Z,44.974711,6.956946,,,,,0,U,,,,,Automatically computed from `known$stap_id==-1` with `params2o()`
+,26HS,equipment,2020-07-07T00:00:00Z,46.553613,8.711702,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,26HS,retrieval,2021-06-23T00:00:00Z,46.553613,8.711702,,,,,0,U,,,,,Automatically computed from `known$stap_id==-1` with `params2o()`
+,26IL,equipment,2020-07-14T00:00:00Z,46.549204,8.70603,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,26IL,retrieval,2021-06-30T00:00:00Z,46.549204,8.70603,,,,,0,U,,,,,Automatically computed from `known$stap_id==-1` with `params2o()`
+,26IM,equipment,2020-07-14T00:00:00Z,46.550758,8.705503,,,,,0,U,,,,,Automatically computed from `known$stap_id==1` with `params2o()`
+,26IM,retrieval,2021-05-28T00:00:00Z,46.550758,8.705503,,,,,0,U,,,,,Automatically computed from `known$stap_id==-1` with `params2o()`
