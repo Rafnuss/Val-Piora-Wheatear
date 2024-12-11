@@ -1,0 +1,216 @@
+# Configuration file for GeoPressureR parameters
+#
+# This file stores all the parameters used by the GeoPressureR functions, following the best
+# practice to separate parameters from codes. These parameters are retrieved using config::get() of
+# the config R package <https://rstudio.github.io/config/>.
+#
+# This file is meant to be adapted based on your needs: feel free to add parameters either in the
+# default (applied to all tags) or for each tag seperatly (overwrite default). It is recommended to
+# specify all parameters used, even if you use the default value.
+#
+# You can check the documentation of each function to learn what each of these parameters are doing
+# as well as reading https://raphaelnussbaumer.com/GeoPressureManual/geopressuretemplate-workflow.html
+
+default:
+  tag_set_map: # ?tag_set_map()
+    extent: [-18, 16, 5, 51] # [W, E, S, N]
+    scale: 4 # 1 (min) -> 1° ; 2 -> 0.5° ; 5 -> 0.25° ; 10 (max) -> 0.1°
+    include_stap_id: NULL # default, take all
+    include_min_duration: 0 # in hours
+  geopressure_map: # ?geopressure_map()
+    max_sample: 300
+    margin: 30 # in m
+    sd: 1
+    thr_mask: 0.9
+    log_linear_pooling_weight: !expr \(n) log(n)/n
+  twilight_create: # ?twilight_create()
+    # twl_thr: NULL
+    # twl_offset: NULL # in hours
+  geolight_map: # ?geolight_map()
+    twl_calib_adjust: 1.4
+    twl_llp: !expr \(n) log(n)/n
+  graph_create: # ?graph_create()
+    thr_likelihood: 0.99
+    thr_gs: 150 # km/h
+    # likelihood: NULL # Best to leave NULL.
+  graph_add_wind:
+    thr_as: 90 # km/h
+  graph_set_movement: # ?graph_set_movement()
+    # type: "gs"
+    # method: "gamma"
+    # shape: 7 # only for gamma
+    # scale: 7
+    # location: 40 # only for logistic
+    # low_speed_fix: 15 # km/h
+  bird_create:
+    scientific_name: "Oenanthe oenanthe"
+  graph_simulation: # ?graph_simulation()
+    nj: 10
+  pressurepath_create: # ?pressurepath_create()
+    variable: ["altitude", "surface_pressure"]
+    # solar_dep: 0
+  geopressuretemplate: # ?geopressuretemplate()
+    likelihood: ["map_pressure", "map_light"] #  for nothing
+    outputs: ["marginal", "most_likely", "simulation"]
+    pressurepath: ["most_likely"] # "geopressureviz"
+
+
+26IM:
+  keep: 9
+  stap_winter: 16
+  tag_create:
+    crop_start: "2020-07-14"
+    crop_end: "2021-05-28"
+  tag_set_map:
+    known:
+      stap_id: [1, -1] # -1 -> last stap
+      known_lon: 8.705503
+      known_lat: 46.550758
+
+26IL:
+  keep: 9
+  stap_winter: 14
+  tag_create:
+    crop_start: "2020-07-14"
+    crop_end: "2021-06-30"
+  tag_set_map:
+    known:
+      stap_id: [1, -1]
+      known_lon: 8.70603
+      known_lat: 46.549204
+
+26HS:
+  keep: 9
+  stap_winter: 17
+  tag_create:
+    crop_start: "2020-07-07"
+    crop_end: "2021-06-23"
+  tag_set_map:
+    known:
+      stap_id: [1, -1]
+      known_lon: 8.711702
+      known_lat: 46.553613
+
+24EA:
+  keep: 1
+  tag_create:
+    crop_start: "2019-07-20"
+    crop_end: "2019-10-31"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 6.96333
+      known_lat: 44.95177
+
+24EP:
+  keep: 1
+  tag_create:
+    crop_start: "2019-07-20"
+    crop_end: "2019-10-12"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 6.96333
+      known_lat: 44.95177
+
+24DK:
+  keep: 1
+  tag_create:
+    crop_start: "2019-07-20"
+    crop_end: "2019-09-17"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 6.96995
+      known_lat: 44.95344
+
+24TJ:
+  keep: 9
+  stap_winter: 18
+  tag_create:
+    crop_start: "2020-07-31"
+    crop_end: "2021-06-05"
+  tag_set_map:
+    known:
+      stap_id: [1, -1]
+      known_lon: 6.956946
+      known_lat: 44.974711
+
+16IQ:
+  keep: 2
+  stap_winter: 21
+  tag_create:
+    crop_start: "2016-07-01"
+    crop_end: "2017-01-28"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.68364
+      known_lat: 46.5427
+
+16JL:
+  keep: 1
+  tag_create:
+    crop_start: "2016-07-01"
+    crop_end: "2016-11-12"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.68315
+      known_lat: 46.54263
+
+16JB:
+  keep: 0
+  tag_create:
+    crop_start: "2016-07-01"
+    crop_end: "2016-09-28"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.72989
+      known_lat: 46.54841
+
+16IT:
+  keep: 1
+  tag_create:
+    crop_start: "2016-07-01"
+    crop_end: "2016-10-04"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.68682
+      known_lat: 46.54849
+
+20TJ:
+  keep: 2
+  stap_winter: 12
+  tag_create:
+    crop_start: "2018-08-01"
+    crop_end: "2018-11-08"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.703374
+      known_lat: 46.550143
+
+20TZ:
+  keep: 0
+  tag_create:
+    crop_start: "2018-08-01"
+    crop_end: "2018-09-18"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.690984
+      known_lat: 46.553141
+
+24IS:
+  keep: 1
+  tag_create:
+    crop_start: "2019-08-01"
+    crop_end: "2019-10-16"
+  tag_set_map:
+    known:
+      stap_id: 1
+      known_lon: 8.692212
+      known_lat: 46.554927

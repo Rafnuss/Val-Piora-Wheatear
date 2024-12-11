@@ -1,22 +1,27 @@
-# -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.4.0
+# --------------------------------------------
+# CITATION file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# -----------------------------------------------------------
-
+# --------------------------------------------
+ 
 cff-version: 1.2.0
 message: 'To cite package "Val-Piora-Wheatear" in publications use:'
 type: software
 license: GPL-3.0-or-later
-title: 'Val-Piora-Wheatear: Trajectories of Northern Wheatears breeding in Val Piora'
-version: '0.3'
+title: 'Val-Piora-Wheatear: Trajectories of Northern Wheatears breeding in Val Piora
+  (Switzerland) and Val Troncea (Italy)'
+version: '0.4'
 authors:
 - family-names: Nussbaumer
   given-names: Raphaël
   email: rafnuss@gmail.com
   orcid: https://orcid.org/0000-0002-8185-1020
-- family-names: Rime
-  given-names: Yann
-  email: Yann.Rime@vogelwarte.ch
+repository-code: https://github.com/Rafnuss/Val-Piora-Wheatear/
+url: https://github.com/Rafnuss/Val-Piora-Wheatear/
+contact:
+- family-names: Nussbaumer
+  given-names: Raphaël
+  email: rafnuss@gmail.com
+  orcid: https://orcid.org/0000-0002-8185-1020
 references:
 - type: software
   title: 'R: A Language and Environment for Statistical Computing'
@@ -24,11 +29,10 @@ references:
   url: https://www.R-project.org/
   authors:
   - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2022'
   institution:
     name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
   version: '>= 3.5.0'
 - type: software
   title: dplyr
@@ -39,7 +43,7 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: François
     given-names: Romain
@@ -49,7 +53,12 @@ references:
   - family-names: Müller
     given-names: Kirill
     orcid: https://orcid.org/0000-0002-1416-3412
-  year: '2022'
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+    orcid: https://orcid.org/0000-0003-4777-038X
+  year: '2024'
+  doi: 10.32614/CRAN.package.dplyr
 - type: software
   title: GeoPressureR
   abstract: 'GeoPressureR: Global Positioning by Atmospheric Pressure'
@@ -64,7 +73,7 @@ references:
     given-names: Mathieu
     email: mathieu@mgravey.com
     orcid: https://orcid.org/0000-0002-0871-1507
-  year: '2022'
+  year: '2024'
 - type: software
   title: ggplot2
   abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
@@ -74,7 +83,7 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: Chang
     given-names: Winston
@@ -83,7 +92,7 @@ references:
     given-names: Lionel
   - family-names: Pedersen
     given-names: Thomas Lin
-    email: thomas.pedersen@rstudio.com
+    email: thomas.pedersen@posit.co
     orcid: https://orcid.org/0000-0002-5147-4711
   - family-names: Takahashi
     given-names: Kohske
@@ -99,17 +108,46 @@ references:
   - family-names: Dunnington
     given-names: Dewey
     orcid: https://orcid.org/0000-0002-9415-4582
-  year: '2022'
+  - family-names: Brand
+    given-names: Teun
+    name-particle: van den
+    orcid: https://orcid.org/0000-0002-9335-7468
+  year: '2024'
+  doi: 10.32614/CRAN.package.ggplot2
 - type: software
   title: igraph
   abstract: 'igraph: Network Analysis and Visualization'
   notes: Imports
-  url: https://igraph.org
+  url: https://r.igraph.org/
   repository: https://CRAN.R-project.org/package=igraph
   authors:
-  - family-names: file.
-    given-names: See AUTHORS
-  year: '2022'
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+    orcid: https://orcid.org/0000-0001-7098-9676
+  - family-names: Nepusz
+    given-names: Tamás
+    email: ntamas@gmail.com
+    orcid: https://orcid.org/0000-0002-1451-338X
+  - family-names: Traag
+    given-names: Vincent
+    orcid: https://orcid.org/0000-0003-3170-3879
+  - family-names: Horvát
+    given-names: Szabolcs
+    email: szhorvat@gmail.com
+    orcid: https://orcid.org/0000-0002-3100-523X
+  - family-names: Zanini
+    given-names: Fabio
+    email: fabio.zanini@unsw.edu.au
+    orcid: https://orcid.org/0000-0001-7097-8539
+  - family-names: Noom
+    given-names: Daniel
+  - family-names: Müller
+    given-names: Kirill
+    email: kirill@cynkra.com
+    orcid: https://orcid.org/0000-0002-1416-3412
+  year: '2024'
+  doi: 10.32614/CRAN.package.igraph
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -121,7 +159,8 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.knitr
 - type: software
   title: leaflet
   abstract: 'leaflet: Create Interactive Web Maps with the JavaScript ''Leaflet''
@@ -132,37 +171,47 @@ references:
   authors:
   - family-names: Cheng
     given-names: Joe
-    email: joe@rstudio.com
+    email: joe@posit.co
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@posit.co
+    orcid: https://orcid.org/0000-0001-9986-114X
   - family-names: Karambelkar
     given-names: Bhaskar
   - family-names: Xie
     given-names: Yihui
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.leaflet
 - type: software
   title: leaflet.extras
   abstract: 'leaflet.extras: Extra Functionality for ''leaflet'' Package'
   notes: Imports
-  url: https://bhaskarvk.github.io/leaflet.extras/
+  url: https://trafficonese.github.io/leaflet.extras/
   repository: https://CRAN.R-project.org/package=leaflet.extras
   authors:
+  - family-names: Gatscha
+    given-names: Sebastian
+    email: sebastian_gatscha@gmx.at
   - family-names: Karambelkar
     given-names: Bhaskar
     email: bhaskarvk@gmail.com
   - family-names: Schloerke
     given-names: Barret
     email: barret@rstudio.com
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.leaflet.extras
 - type: software
   title: leaflet.providers
   abstract: 'leaflet.providers: Leaflet Providers'
   notes: Imports
-  url: https://github.com/rstudio/leaflet.providers
+  url: https://rstudio.github.io/leaflet.providers/
   repository: https://CRAN.R-project.org/package=leaflet.providers
   authors:
   - family-names: Huang
     given-names: Leslie
     email: lesliehuang@nyu.edu
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.leaflet.providers
 - type: software
   title: lubridate
   abstract: 'lubridate: Make Dealing with Dates a Little Easier'
@@ -177,7 +226,8 @@ references:
     given-names: Garrett
   - family-names: Wickham
     given-names: Hadley
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.lubridate
 - type: software
   title: ncdf4
   abstract: 'ncdf4: Interface to Unidata netCDF (Version 4 or Earlier) Format Data
@@ -189,7 +239,9 @@ references:
   - family-names: Pierce
     given-names: David
     email: dpierce@ucsd.edu
-  year: '2022'
+    orcid: https://orcid.org/0000-0002-2453-9030
+  year: '2024'
+  doi: 10.32614/CRAN.package.ncdf4
 - type: software
   title: plotly
   abstract: 'plotly: Create Interactive Web Graphics via ''plotly.js'''
@@ -220,7 +272,8 @@ references:
   - family-names: Despouy
     given-names: Pedro
     email: pedro@plot.ly
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.plotly
 - type: software
   title: raster
   abstract: 'raster: Geographic Data Analysis and Modeling'
@@ -232,7 +285,8 @@ references:
     given-names: Robert J.
     email: r.hijmans@gmail.com
     orcid: https://orcid.org/0000-0001-5872-2872
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.raster
 - type: software
   title: RColorBrewer
   abstract: 'RColorBrewer: ColorBrewer Palettes'
@@ -242,7 +296,8 @@ references:
   - family-names: Neuwirth
     given-names: Erich
     email: erich.neuwirth@univie.ac.at
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.RColorBrewer
 - type: software
   title: readr
   abstract: 'readr: Read Rectangular Text Data'
@@ -252,14 +307,15 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
   - family-names: Hester
     given-names: Jim
   - family-names: Bryan
     given-names: Jennifer
-    email: jenny@rstudio.com
+    email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.readr
 - type: software
   title: readxl
   abstract: 'readxl: Read Excel Files'
@@ -269,13 +325,14 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: Bryan
     given-names: Jennifer
-    email: jenny@rstudio.com
+    email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2022'
+  year: '2024'
+  doi: 10.32614/CRAN.package.readxl
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -285,58 +342,52 @@ references:
   authors:
   - family-names: Allaire
     given-names: JJ
-    email: jj@rstudio.com
+    email: jj@posit.co
   - family-names: Xie
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  - family-names: McPherson
-    given-names: Jonathan
-    email: jonathan@rstudio.com
-  - family-names: Luraschi
-    given-names: Javier
-    email: javier@rstudio.com
-  - family-names: Ushey
-    given-names: Kevin
-    email: kevin@rstudio.com
-  - family-names: Atkins
-    given-names: Aron
-    email: aron@rstudio.com
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@rstudio.com
-  - family-names: Cheng
-    given-names: Joe
-    email: joe@rstudio.com
-  - family-names: Chang
-    given-names: Winston
-    email: winston@rstudio.com
-  - family-names: Iannone
-    given-names: Richard
-    email: rich@rstudio.com
-    orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2022'
-- type: software
-  title: distill
-  abstract: 'distill: ''R Markdown'' Format for Scientific and Technical Writing'
-  notes: Imports
-  url: https://pkgs.rstudio.com/distill
-  repository: https://CRAN.R-project.org/package=distill
-  authors:
   - family-names: Dervieux
     given-names: Christophe
-    email: cderv@rstudio.com
+    email: cderv@posit.co
     orcid: https://orcid.org/0000-0003-4474-2498
-  - family-names: Allaire
-    given-names: JJ
-    email: jj@rstudio.com
-    orcid: https://orcid.org/0000-0003-0174-9868
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@posit.co
+  - family-names: Luraschi
+    given-names: Javier
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@posit.co
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
   - family-names: Iannone
-    given-names: Rich
-  - family-names: Presmanes Hill
-    given-names: Alison
-    orcid: https://orcid.org/0000-0002-8082-1890
-  - family-names: Xie
-    given-names: Yihui
-    orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2022'
+    given-names: Richard
+    email: rich@posit.co
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2024'
+  doi: 10.32614/CRAN.package.rmarkdown
+- type: software
+  title: cffr
+  abstract: 'cffr: Generate Citation File Format (''cff'') Metadata for R Packages'
+  notes: Imports
+  url: https://docs.ropensci.org/cffr/
+  repository: https://CRAN.R-project.org/package=cffr
+  authors:
+  - family-names: Hernangómez
+    given-names: Diego
+    email: diego.hernangomezherrero@gmail.com
+    orcid: https://orcid.org/0000-0001-8457-4658
+  year: '2024'
+  doi: 10.32614/CRAN.package.cffr
+
