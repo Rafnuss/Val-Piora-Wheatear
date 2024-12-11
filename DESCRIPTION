@@ -1,12 +1,15 @@
 Package: Val-Piora-Wheatear
-Title: Trajectories of Northern Wheatears breeding in Val Piora
+Title: Trajectories of Northern Wheatears breeding in Val Piora (Switzerland) and Val Troncea (Italy)
 Version: 0.4
-Authors@R: 
-    person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-8185-1020"))
+Authors@R: c(
+    person("Raphaël", "Nussbaumer", email = "rafnuss@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8185-1020")),
+    person("Yann", "Rime", role = "ctb",
+           comment = c(ORCID = "0009-0005-7264-6753"))
+    )
 Description: 
 License: GPL (>= 3)
-URL: 
+URL: https://github.com/Rafnuss/Val-Piora-Wheatear/
 Depends: 
     R (>= 3.5.0)
 Imports: 
