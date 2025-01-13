@@ -1,4 +1,4 @@
-tag_id,ring_number,scientific_name,manufacturer,model,firwmare,weight,attachment_type,readout_method,tag_comments
+tag_id,ring_number,scientific_name,manufacturer,model,firmware,weight,attachment_type,readout_method,tag_comments
 16IQ,N566640,Oenanthe oenanthe,Swiss Ornithological Institute,HW_GDL3pam_V2.3,FW_GDL3pam_V2.3.1,,leg-loop-harness,tag-retrieval,
 16IT,N566638,Oenanthe oenanthe,Swiss Ornithological Institute,HW_GDL3pam_V2.3,FW_GDL3pam_V2.3.1,,leg-loop-harness,tag-retrieval,
 16JB,N566669,Oenanthe oenanthe,Swiss Ornithological Institute,HW_GDL3pam_V2.3,FW_GDL3pam_V2.3.1,,leg-loop-harness,tag-retrieval,

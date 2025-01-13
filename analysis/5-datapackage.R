@@ -1,16 +1,35 @@
 library(GeoLocatoR)
 library(frictionless)
 
-pkg <- create_gldp_geopressuretemplate()
+zenodo <- zen4R::ZenodoManager$new(token = keyring::key_get(service = "ZENODO_PAT"))
+
+z <- zenodo$getDepositionByConceptDOI("10.5281/zenodo.14364135")
+
+pkg <- zenodoRecord2gldp(z)
+
 pkg <- add_gldp_geopressuretemplate(pkg)
 
-observations(pkg) <- read.csv("data/observations.csv")
-tags(pkg) <- read.csv("data/tags.csv")
+validate_gldp(pkg)
 
-pkg$title <- "Geolocator Data Package: Trajectories of Northern Wheatears breeding in Val Piora (Switzerland) and Val Troncea (Italy)"
-pkg$id <- "https://doi.org/10.5281/zenodo.14364136"
-pkg$description <- "This repository contains the raw data and the trajectory information generated with the GeoPressureR workflow, following the GeoLocator Data Package standard (v0.1). The complete code used to generate this datapackage can be found at https://github.com/Rafnuss/Val-Piora-Wheatear/.
-It contains 10 tags fitted on Northern Wheatears in Val Piora, Switzerland, between 2016 and 2020 and retrieved between 2017 and 2021, and 4 tags fitted in Val Troncea, Italy, in 2019 and 2020 and retrieved in 2020 and 2021. The data is associated to Rime et al. ([2023](https://doi.org/10.1186/s40462-023-00381-6))."
+# New version
+pkg$version <- "v1.2.0"
+pkg <- pkg %>% update_gldp_metadata()
+z$setVersion(pkg$version)
+
+# Write datapackage
+write_package(pkg, pkg$version)
+
+# Create new record
+z <- zenodo$depositRecordVersion(
+  z,
+  delete_latest_files = TRUE,
+  files = file.path(pkg$version, list.files(pkg$version)),
+  publish = FALSE
+)
+
+
+
+
 
 # pkg$contributors
 list(
@@ -69,26 +88,4 @@ list(
     path = "https://orcid.org/0009-0005-7264-6753"
   )
 )
-
-pkg$citation <- "Nussbaumer, R. & Rime, Y. (2024). Geolocator Data Package: Trajectories of Northern Wheatears breeding in Val Piora (Switzerland) and Val Troncea (Italy) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.14364136"
-
-pkg$relatedIdentifiers <- list(
-  list(
-    relationType="IsSupplementTo",
-    relatedIdentifier="10.1186/s40462-023-00381-6",
-    relatedIdentifierType="DOI"
-  ),
-  list(
-    relationType="IsDerivedFrom",
-    relatedIdentifier=" q",
-    relatedIdentifierType="DOI"
-  )
-)
-
-plot(pkg)
-
-check_gldp(pkg)
-
-dir.create("data/zenodo", showWarnings = FALSE)
-write_package(pkg,"data/datapackage")
 

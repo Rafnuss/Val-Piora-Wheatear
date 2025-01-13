@@ -1,4 +1,4 @@
-ring_number,tag_id,observation_type,datetime,latitude,longitude,location_name,device_status,observer,catching_method,life_stage,sex,condition,mass,wing_length,additional_metric,observation_comments
+ring_number,tag_id,observation_type,datetime,latitude,longitude,location_name,device_status,observer,catching_method,age_class,sex,condition,mass,wing_length,additional_metric,observation_comments
 N566640,16IQ,equipment,2016-06-24T18:00:00Z,46.5427,8.68364,CH_AlpeDiPiora,present,Yann Rime,L,6,F,alive,26,93,,
 N566640,16IQ,retrieval,2017-06-15T17:56:00Z,46.542677,8.683736,CH_AlpeDiPiora,present,Yann Rime,N,6,F,alive,26,91,,
 N566638,16IT,equipment,2016-06-24T10:00:00Z,46.54849,8.68682,CH_AlpeDiPiora,present,Yann Rime,L,6,M,alive,25,98,,
