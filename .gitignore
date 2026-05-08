@@ -46,6 +46,5 @@ vignettes/*.pdf
 
 .RDataTmp
 *.nc
-*.Rdata
 .RDataTmp1
 data/datapackage/*
